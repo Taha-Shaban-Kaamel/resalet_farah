@@ -1,0 +1,34 @@
+# @name csrf
+GET http://127.0.0.1:8000/sanctum/csrf-cookie
+Accept: application/json
+X-Requested-With: XMLHttpRequest
+
+###
+
+# @name login
+POST http://127.0.0.1:8000/api/auth/login
+Accept: application/json
+Content-Type: application/json
+X-Requested-With: XMLHttpRequest
+Cookie: X-XSRF-TOKEN={{csrf.response.headers.set-cookie.TOKEN}};
+{
+  "email": "tahashaban1@gmail.com",
+  "password": "123456"
+}
+
+###
+
+# @name me
+GET http://127.0.0.1:8000/api/user
+Accept: application/json
+X-Requested-With: XMLHttpRequest
+
+###
+
+# @name logout
+POST http://127.0.0.1:8000/api/auth/logout
+Accept: application/json
+X-Requested-With: XMLHttpRequest
+Cookie: X-XSRF-TOKEN={{csrf.response.headers.set-cookie.TOKEN}}
+# Using cookie/session-based auth with Sanctum. Do NOT send Authorization header.
+# If CSRF protection is enabled (default for stateful Sanctum), you may need to add:
