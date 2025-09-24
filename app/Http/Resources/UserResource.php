@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request;
 
 class UserResource extends JsonResource
 {
@@ -15,14 +15,21 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id"=>$this->resource->id,
-            "name"=>$this->resource->name ,
-            "email"=>$this->resource->email,
-            "roles" => $this->whenLoaded('roles',function(){
-                return $this->resource->roles->pluck('name');
+            'id' => $this->resource->id,
+            'name' => $this->resource->name,
+            'email' => $this->resource->email,
+            'roles_permissions' => $this->whenLoaded('roles', function () {
+                return [
+                    'roles' => $this->resource->roles->pluck('name'),
+                    'permissions' => $this->getAllPermissions()->pluck('name')
+                ];
             }),
-            "created_at" => $this->resource->created_at->diffForHumans(),
-            "updated_at" => $this->resource->updated_at->diffForHumans()
+            'title' => $this->resource->title ?? null,
+            'phone' => $this->resource->phone ?? null,
+            'address' => $this->resource->address ?? null,
+            'image' => $this->resource->image ? asset('storage' . '/' . $this->resource->image) : null,
+            'created_at' => $this->resource->created_at->diffForHumans(),
+            'updated_at' => $this->resource->updated_at->diffForHumans()
         ];
     }
 }

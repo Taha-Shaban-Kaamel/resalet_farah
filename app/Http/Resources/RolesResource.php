@@ -12,7 +12,7 @@ class RolesResource extends JsonResource
         return [
             "id"=> $this->id,
             "name"=> $this->name,
-            "permissions" => $this->whenLoaded('permissions', fn() => $this->permissions->pluck('name')),
+            "permissions" =>  $this->permissions->pluck('name'),
             "created_at" => optional($this->created_at)->diffForHumans(),
             "updated_at" => optional($this->updated_at)->diffForHumans(),
         ];

@@ -88,18 +88,18 @@ class RolesPermissionController extends Controller
         $role = Role::findOrFail($id);
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:roles,name,' . $role->id,
+            'name' => 'nullable|string|max:255|unique:roles,name,' . $role->id,
             'permissions' => 'nullable|array',
-            'permissions.*' => 'exists:permissions,id',
+            'permissions.*' => 'exists:permissions,name',
         ]);
 
         try {
             DB::beginTransaction();
 
-            $role->update(['name' => $validated['name']]);
+            $role->update($validated);
 
             if (isset($validated['permissions'])) {
-                $permissions = Permission::whereIn('id', $validated['permissions'])->pluck('name');
+                $permissions = Permission::whereIn('name', $validated['permissions'])->pluck('name');
                 $role->syncPermissions($permissions);
             } else {
                 $role->syncPermissions([]);
@@ -110,7 +110,8 @@ class RolesPermissionController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'role updated succssfuly!',
-                'role' => new RolesResource($role)
+                'role' => new RolesResource($role),
+                // 'permissions' => $role->permissions->pluck('name')
             ]);
         } catch (\Exception $e) {
             DB::rollBack();

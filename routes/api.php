@@ -3,8 +3,8 @@
 use App\Http\Controllers\slidersController;
 use App\Http\Controllers\site_content_controller;
 use App\Http\Controllers\admin\authController;
+use App\Http\Controllers\admin\userController;
 use App\Http\Controllers\admin\RolesPermissionController;
-use App\Http\Middleware\CheckSuperAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,16 +17,17 @@ Route::prefix('auth')->group(function (){
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout',[authController::class,'logout']);
         Route::post('addUser',[authController::class,'addUser']);
+        Route::get('me',[authController::class,'me']);
     });
 });
 
 
 Route::prefix('user')->middleware('auth:sanctum','check.superadmin:super admin')->group(function(){
-    Route::post('add',[authController::class,'addUser']);
-    Route::get('get/{userId}',[authController::class,'getUser']);
-    Route::post('delete/{userId}',[authController::class,'deleteUser']);
-    Route::post('update/{userId}',[authController::class,'updateUser']);
-    Route::get('get',[authController::class,'index']);
+    Route::post('add',[userController::class,'addUser']);
+    Route::get('get/{userId}',[userController::class,'getUser']);
+    Route::post('delete/{userId}',[userController::class,'deleteUser']);
+    Route::post('update/{userId}',[userController::class,'updateUser']);
+    Route::get('get',[userController::class,'index']);
 });
 
 Route::prefix('roles')->middleware('auth:sanctum','check.superadmin:super admin')->group(function(){
