@@ -37,7 +37,8 @@ class userController extends Controller
                 'name' => 'required|string|',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'nullable|string',
-                'role' => 'required|string|exists:roles,name',
+                'role' => 'required|array|exists:roles,name',
+                'role.*' => 'string|exists:roles,name',
                 'title' => 'nullable|string',
                 'phone' => 'nullable|string',
                 'address' => 'nullable|string',
@@ -79,7 +80,7 @@ class userController extends Controller
         // ->where('guard_name','Web')
         // ->firstOrFail();
 
-        $user->assignRole($request->role);
+        $user->syncRoles($request->role);
 
         if ($user) {
             return response()->json(
