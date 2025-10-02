@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\slidersController;
-use App\Http\Controllers\site_content_controller;
+use App\Http\Controllers\sitContentController;
 use App\Http\Controllers\admin\authController;
 use App\Http\Controllers\admin\userController;
 use App\Http\Controllers\admin\RolesPermissionController;
@@ -14,6 +14,8 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('auth')->group(function (){
     Route::post('login',[authController::class,'login']);
+    Route::post('forgetPassword',[authController::class,'forgetPassword']);
+    Route::post('resetPassword',[authController::class,'resetPassword']);
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout',[authController::class,'logout']);
         Route::post('addUser',[authController::class,'addUser']);
@@ -52,5 +54,8 @@ Route::post('createSlider',[slidersController::class,'create'])->middleware('aut
 
 
 Route::prefix('site-content')->group(function (){
-    Route::get('get',[site_content_controller::class,'index']);
+    Route::get('get',[sitContentController::class,'index']);
+    Route::post('create',[sitContentController::class,'store']);
+    Route::post('update/{id}',[sitContentController::class,'update']);
+    Route::post('delete/{id}',[sitContentController::class,'destroy']);
 });

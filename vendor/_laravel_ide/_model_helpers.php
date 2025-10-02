@@ -657,6 +657,7 @@ namespace App\Models {
      * @property string|null $address
      * @property string|null $phone
      * @property string|null $title
+     * @property string|null $forget_password_code
      * @property string $password
      * @property \Illuminate\Support\Carbon|null $email_verified_at
      * @property string $email
@@ -675,6 +676,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereEmail($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereEmailVerifiedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User wherePassword($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereForgetPasswordCode($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereTitle($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User wherePhone($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereAddress($value)

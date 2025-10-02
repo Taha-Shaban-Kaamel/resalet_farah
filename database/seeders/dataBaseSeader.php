@@ -17,10 +17,10 @@ class dataBaseSeader extends Seeder
       
         $user = User::create([
             "name" => "super admin",
-            "email" => "superAdmin@gmail.com",
+            "email" => "tahashaban743@gmail.com",
             "password" => "12345678",
         ]);
 
-        // $user->assignRole('super admin');
+        $user->assignRole('super admin');
     }
 }
