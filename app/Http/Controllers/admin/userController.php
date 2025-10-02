@@ -26,7 +26,7 @@ class userController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'User retrieved successfully',
-            'data' => new UserResource($user->load('roles'))
+            'data' => new UserResource($user->load('permissions'))
         ], 200);
     }
 
@@ -37,8 +37,8 @@ class userController extends Controller
                 'name' => 'required|string|',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'nullable|string',
-                'role' => 'required|array|exists:roles,name',
-                'role.*' => 'string|exists:roles,name',
+                'permissions' => 'nullable|array|exists:permissions,name',
+                'permissions.*' => 'string|exists:permissions,name',
                 'title' => 'nullable|string',
                 'phone' => 'nullable|string',
                 'address' => 'nullable|string',
@@ -48,8 +48,7 @@ class userController extends Controller
                 'email.required' => 'Email is required',
                 'email.unique' => 'Email already exists',
                 'password.required' => 'Password is required',
-                'role.required' => 'Role is required',
-                'role.exists' => 'Role does not exist',
+                'permissions.exists' => 'Permissions does not exist',
                 'title.string' => 'Title must be a string',
                 'phone.string' => 'Phone must be a string',
                 'password.string' => 'Password must be a string',
@@ -80,7 +79,7 @@ class userController extends Controller
         // ->where('guard_name','Web')
         // ->firstOrFail();
 
-        $user->syncRoles($request->role);
+        $user->syncPermissions($request->permissions);
 
         if ($user) {
             return response()->json(
@@ -119,7 +118,7 @@ class userController extends Controller
 
     public function index()
     {
-        $users = User::get()->load('roles');
+        $users = User::get()->load('permissions');
         return response()->json([
             'status' => true,
             'message' => 'Users retrieved successfully',
@@ -136,8 +135,8 @@ class userController extends Controller
                 'email' => 'nullable|email|unique:users,email,' . $userId,
                 'password' => 'nullable|string|min:6',
                 'name' => 'nullable|string|max:255',
-                'role' => 'nullable|array',
-                'role.*' => 'string|exists:roles,name',
+                'permissions' => 'nullable|array',
+                'permissions.*' => 'string|exists:permissions,name',
                 'title' => 'nullable|string',
                 'phone' => 'nullable|string',
                 'address' => 'nullable|string',
@@ -150,8 +149,8 @@ class userController extends Controller
             $user->update($validatedData);
     
             // Handle role assignment if provided
-            if (isset($validatedData['role'])) {
-                $user->syncRoles($validatedData['role']);
+            if (isset($validatedData['permissions'])) {
+                $user->syncPermissions($validatedData['permissions']);
             }
     
             DB::commit();
