@@ -4,8 +4,10 @@ use App\Http\Controllers\slidersController;
 use App\Http\Controllers\sitContentController;
 use App\Http\Controllers\admin\authController;
 use App\Http\Controllers\admin\userController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\admin\RolesPermissionController;
 use App\Http\Controllers\BoardOfDirctorsController;
+use App\Http\Controllers\NewsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -63,7 +65,30 @@ Route::prefix('site-content')->group(function (){
 
 Route::prefix('board-of-dirctors')->group(function(){
     Route::get('get',[BoardOfDirctorsController::class,'index']);
-    Route::post('create',[BoardOfDirctorsController::class,'store']);
-    Route::post('update/{id}',[BoardOfDirctorsController::class,'update']);
-    Route::post('delete/{id}',[BoardOfDirctorsController::class,'destroy']);
+    Route::get('get/{id}',[BoardOfDirctorsController::class,'show']);
+    Route::middleware('auth:sanctum','check.superadmin:super admin')->group(function(){
+        Route::post('create',[BoardOfDirctorsController::class,'store']);
+        Route::post('update/{id}',[BoardOfDirctorsController::class,'update']);
+        Route::post('delete/{id}',[BoardOfDirctorsController::class,'destroy']);
+    });
+});
+
+Route::prefix('services')->group(function(){
+    Route::get('get',[ServiceController::class,'index']);
+    Route::get('get/{id}',[ServiceController::class,'show']);
+    Route::middleware('auth:sanctum','check.superadmin:super admin')->group(function(){
+        Route::post('create',[ServiceController::class,'store']);
+        Route::post('update/{id}',[ServiceController::class,'update']);
+        Route::post('delete/{id}',[ServiceController::class,'destroy']);
+    });
+});
+
+Route::prefix('news')->group(function(){
+    Route::get('get',[NewsController::class,'index']);
+    Route::get('get/{id}',[NewsController::class,'show']);
+    Route::middleware('auth:sanctum','check.superadmin:super admin')->group(function(){
+        Route::post('create',[NewsController::class,'store']);
+        Route::post('update/{id}',[NewsController::class,'update']);
+        Route::post('delete/{id}',[NewsController::class,'destroy']);
+    });
 });
