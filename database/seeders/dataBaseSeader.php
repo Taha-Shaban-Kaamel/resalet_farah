@@ -17,7 +17,7 @@ class dataBaseSeader extends Seeder
       
         $user = User::create([
             "name" => "super admin",
-            "email" => "tahashaban743@gmail.com",
+            "email" => "resalet.farah2022@gmail.com",
             "password" => "12345678",
         ]);
 
