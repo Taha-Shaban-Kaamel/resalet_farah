@@ -35,11 +35,11 @@ class authController extends Controller
         }
 
         $token = $user->createToken('API TOKEN')->plainTextToken;
-
+        $user->load('roles');
         return response()->json([
             'status' => true,
             'message' => 'Welcome Back !',
-            'user' => new UserResource($user->load('roles')),
+            'user' => new UserResource($user),
             'token' => $token
         ], 200);
     }
@@ -123,7 +123,7 @@ class authController extends Controller
         $user->update([
             'forget_password_code' => $details['code']
         ]);
-
+        
         Mail::to($user->email)->send(new ForgetPassword($details));
 
         return response()->json([

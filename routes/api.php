@@ -5,6 +5,7 @@ use App\Http\Controllers\sitContentController;
 use App\Http\Controllers\admin\authController;
 use App\Http\Controllers\admin\userController;
 use App\Http\Controllers\admin\RolesPermissionController;
+use App\Http\Controllers\BoardOfDirctorsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -58,4 +59,11 @@ Route::prefix('site-content')->group(function (){
     Route::post('create',[sitContentController::class,'store']);
     Route::post('update/{id}',[sitContentController::class,'update']);
     Route::post('delete/{id}',[sitContentController::class,'destroy']);
+});
+
+Route::prefix('board-of-dirctors')->group(function(){
+    Route::get('get',[BoardOfDirctorsController::class,'index']);
+    Route::post('create',[BoardOfDirctorsController::class,'store']);
+    Route::post('update/{id}',[BoardOfDirctorsController::class,'update']);
+    Route::post('delete/{id}',[BoardOfDirctorsController::class,'destroy']);
 });

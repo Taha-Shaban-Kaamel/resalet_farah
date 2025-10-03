@@ -75,10 +75,7 @@ class userController extends Controller
             'address' => $request->address,
             'image' => $imgPath,
         ]);
-        // $role = Role::where('id',$request->role)
-        // ->where('guard_name','Web')
-        // ->firstOrFail();
-
+  
         $user->syncPermissions($request->permissions);
 
         if ($user) {
