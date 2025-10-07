@@ -132,12 +132,11 @@ class authController extends Controller
         ], 200);
     }
 
-    public function resetPassword(Request $request)
+    public function verfiyCode(Request $request)
     {
         $validateUser = $request->validate([
             'email' => 'required|email',
             'code' => 'required',
-            'password' => 'required|string|min:8|confirmed',
         ]);
         $user = User::where('email', $validateUser['email'])->first();
         if (!$user) {
@@ -147,6 +146,34 @@ class authController extends Controller
             ], 404);
         };
 
+
+        if ($user->forget_password_code != $validateUser['code']) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid code'
+            ], 400);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Code verified successfully',
+        ], 200);
+    }
+
+    public function resetPassword(Request $request){
+        $validateUser = $request->validate([
+            'email' => 'required|email',
+            'code' => 'required',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::where('email', $validateUser['email'])->first();
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found please contact admin!'
+            ], 404);
+        };
 
         if ($user->forget_password_code != $validateUser['code']) {
             return response()->json([
@@ -166,3 +193,4 @@ class authController extends Controller
         ], 200);
     }
 }
+

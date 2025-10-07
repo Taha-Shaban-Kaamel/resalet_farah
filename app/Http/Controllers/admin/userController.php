@@ -139,13 +139,23 @@ class userController extends Controller
                 'address' => 'nullable|string',
                 'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-    
+            
+            if($request->hasFile('image')){
+                if($user->image){
+                    $oldImagePath = storage_path('app/public/' . $user->image);
+                    if(file_exists($oldImagePath) && is_file($oldImagePath)) {
+                        @unlink($oldImagePath);
+                    }
+                }
+                $imageName = time() . '.' . $request->image->getClientOriginalExtension();
+                $request->image->move(public_path('images/users'), $imageName);
+                $validatedData['image'] = 'images/users/' . $imageName;
+            }
             DB::beginTransaction();
     
-            // Update user data
+
             $user->update($validatedData);
     
-            // Handle role assignment if provided
             if (isset($validatedData['permissions'])) {
                 $user->syncPermissions($validatedData['permissions']);
             }
