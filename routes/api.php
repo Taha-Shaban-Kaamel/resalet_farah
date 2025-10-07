@@ -18,6 +18,7 @@ Route::get('/user', function (Request $request) {
 Route::prefix('auth')->group(function (){
     Route::post('login',[authController::class,'login']);
     Route::post('forgetPassword',[authController::class,'forgetPassword']);
+    Route::post('verfiyCode',[authController::class,'verfiyCode']);
     Route::post('resetPassword',[authController::class,'resetPassword']);
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout',[authController::class,'logout']);
