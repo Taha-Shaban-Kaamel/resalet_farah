@@ -27,7 +27,7 @@ class UserResource extends JsonResource
             'title' => $this->resource->title ?? null,
             'phone' => $this->resource->phone ?? null,
             'address' => $this->resource->address ?? null,
-            'image' => $this->resource->image ? asset('storage/app/public' . '/' . $this->resource->image) : null,
+            'image' => $this->resource->image ? asset('storage/' . $this->resource->image) : null,
             'created_at' => $this->resource->created_at->diffForHumans(),
             'updated_at' => $this->resource->updated_at->diffForHumans()
         ];

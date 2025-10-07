@@ -148,7 +148,7 @@ class userController extends Controller
                     }
                 }
                 $imageName = time() . '.' . $request->image->getClientOriginalExtension();
-                $request->image->move(public_path('images/users'), $imageName);
+                $request->image->move(storage_path('app/public/images/users'), $imageName);
                 $validatedData['image'] = 'images/users/' . $imageName;
             }
             DB::beginTransaction();
