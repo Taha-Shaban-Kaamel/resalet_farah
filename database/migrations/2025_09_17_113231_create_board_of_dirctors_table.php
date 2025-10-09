@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('position');
             $table->string('image_path');
-            $table->string('description');
+            $table->text('description');
             $table->string('email');
             $table->string('phone');
             $table->timestamps();

@@ -93,6 +93,20 @@ class BoardOfDirctorsController extends Controller
             'phone' => 'nullable|string',
         ]);
 
+        if($request->hasFile('image')){
+            if($boardOfDirctor->image_path){
+                $oldImagePath = storage_path('app/public/' . $boardOfDirctor->image_path);
+                if(file_exists($oldImagePath) && is_file($oldImagePath)) {
+                    @unlink($oldImagePath);
+                }
+            };
+            
+            $directory = storage_path('app/public/dirctors');
+            $filename = str()->random(10) . '_' . $request->file('image')->getClientOriginalName();
+            $imagePath = $request->file('image')->move($directory, $filename);
+            $request['image_path'] = 'dirctors/' . $filename; 
+        }
+
         $boardOfDirctor->update($request->all());
         return response()->json([
             'status' => true,

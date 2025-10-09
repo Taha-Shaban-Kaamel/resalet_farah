@@ -75,9 +75,9 @@ class NewsController extends Controller
     public function update(Request $request, $id)
     {
         $validateData = $request->validate([
-            'image' => 'required|file|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title' => 'nullable|string|max:255',
+            'content' => 'nullable|string',
         ]);
 
         $news = News::find($id);
